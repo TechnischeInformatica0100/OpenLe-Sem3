@@ -1,0 +1,16 @@
+# ninja log v5
+18	260	7327334419422235	FirstProject_autogen/timestamp	b931377237cb64d3
+3802	4109	7327334458725070	FirstProject.exe	d430d41fa07e8d47
+18	260	7327334419422235	FirstProject_autogen/mocs_compilation.cpp	b931377237cb64d3
+267	3802	7327334455807127	CMakeFiles/FirstProject.dir/widget.cpp.obj	62a22c48dda9310d
+18	260	7327334419422235	C:/Users/HP/Documents/GitPublic/OpenLe-Sem3/Software/Qt/build-FirstProject-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/FirstProject_autogen/timestamp	b931377237cb64d3
+18	260	7327334419422235	C:/Users/HP/Documents/GitPublic/OpenLe-Sem3/Software/Qt/build-FirstProject-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/FirstProject_autogen/mocs_compilation.cpp	b931377237cb64d3
+260	3510	7327334452891009	CMakeFiles/FirstProject.dir/FirstProject_autogen/mocs_compilation.cpp.obj	2d8f97c58128648b
+994	5829	7327334003598443	CMakeFiles/FirstProject.dir/main.cpp.obj	82bbb2b2a9701604
+985	1297	7327333958071499	CMakeFiles/FirstProject.dir/addstudentswidget.cpp.obj	ff83221c27faacd6
+32	280	7329886702984887	FirstProject_autogen/timestamp	b931377237cb64d3
+32	280	7329886702984887	FirstProject_autogen/mocs_compilation.cpp	b931377237cb64d3
+32	280	7329886702984887	C:/Users/HP/Documents/GitPublic/OpenLe-Sem3/Software/Qt/build-FirstProject-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/FirstProject_autogen/timestamp	b931377237cb64d3
+32	280	7329886702984887	C:/Users/HP/Documents/GitPublic/OpenLe-Sem3/Software/Qt/build-FirstProject-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/FirstProject_autogen/mocs_compilation.cpp	b931377237cb64d3
+297	3908	7329886739220462	CMakeFiles/FirstProject.dir/widget.cpp.obj	62a22c48dda9310d
+3909	4550	7329886745610429	FirstProject.exe	d430d41fa07e8d47

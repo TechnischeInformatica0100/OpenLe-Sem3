@@ -1,0 +1,15 @@
+# ninja log v5
+2	990	7327231764935985	QtTestCmake_autogen/timestamp	18535e09725f5ac2
+2	990	7327231764935985	QtTestCmake_autogen/mocs_compilation.cpp	18535e09725f5ac2
+2	990	7327231764935985	C:/Users/HP/Documents/GitPublic/OpenLe-Sem3/Software/Qt/build-QtTestCmake-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/QtTestCmake_autogen/timestamp	18535e09725f5ac2
+2	990	7327231764935985	C:/Users/HP/Documents/GitPublic/OpenLe-Sem3/Software/Qt/build-QtTestCmake-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/QtTestCmake_autogen/mocs_compilation.cpp	18535e09725f5ac2
+991	4911	7327231805358674	CMakeFiles/QtTestCmake.dir/QtTestCmake_autogen/mocs_compilation.cpp.obj	16e5be485f4b9029
+1007	4955	7327231805783505	CMakeFiles/QtTestCmake.dir/main.cpp.obj	2e61c7cc98b6bccd
+999	5048	7327231806690900	CMakeFiles/QtTestCmake.dir/widget.cpp.obj	5b44a8187f99ec8d
+5049	5420	7327231810278767	QtTestCmake.exe	e897f1b44c59c4af
+10	319	7327233479489362	QtTestCmake_autogen/timestamp	18535e09725f5ac2
+10	319	7327233479489362	QtTestCmake_autogen/mocs_compilation.cpp	18535e09725f5ac2
+10	319	7327233479489362	C:/Users/HP/Documents/GitPublic/OpenLe-Sem3/Software/Qt/build-QtTestCmake-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/QtTestCmake_autogen/timestamp	18535e09725f5ac2
+10	319	7327233479489362	C:/Users/HP/Documents/GitPublic/OpenLe-Sem3/Software/Qt/build-QtTestCmake-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/QtTestCmake_autogen/mocs_compilation.cpp	18535e09725f5ac2
+335	3119	7327233507409452	CMakeFiles/QtTestCmake.dir/widget.cpp.obj	5b44a8187f99ec8d
+3120	3431	7327233510481895	QtTestCmake.exe	e897f1b44c59c4af
