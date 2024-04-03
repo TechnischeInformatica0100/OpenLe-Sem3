@@ -1,0 +1,65 @@
+#include "MathRace.h"
+#include <iostream>
+
+int main()
+{
+
+    MathRace game;
+    int choice;
+    std::string name;
+    int score;
+    int time;
+    int level;
+
+    do
+    {
+
+        std::cout << "\n1. Add student\n";
+        std::cout << "2. Update score and time for a student\n";
+        std::cout << "3. Show all students\n";
+        std::cout << "4. Set math level\n";
+        std::cout << "5. Exit\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            std::cin.ignore(); // Ignore the newline left in the input stream
+            std::cout << "Enter the name of the student: ";
+            getline(std::cin, name);
+            if (!game.addStudent(name))
+            {
+                std::cout << "Can not add more students, the limit is reached.\n";
+            }
+            break;
+        case 2:
+            std::cin.ignore();
+            std::cout << "Enter the name of the student: ";
+            getline(std::cin, name);
+            std::cout << "Enter score: ";
+            std::cin >> score;
+            std::cout << "Enter time in seconds: ";
+            std::cin >> time;
+            game.updateScoreAndTime(name, score, time);
+            break;
+        case 3:
+            game.showStudents();
+            break;
+        case 4:
+            std::cout << "Enter math level (1-50): ";
+            std::cin >> level;
+            game.setMathLevel(level);
+            break;
+        case 5:
+            std::cout << "Exiting...\n";
+            break;
+        default:
+            std::cout << "Invalid choice.\n";
+            break;
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}

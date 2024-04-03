@@ -1,0 +1,14 @@
+{
+  "name": "controlplatform",
+  "version": "1.0.0",
+  "description": "Control server for an educational project",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^5.5.0"
+  }
+}
