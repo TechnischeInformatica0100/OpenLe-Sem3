@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Race Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Math Race Game</h1>
+    <div id="student-form">
+      <input type="text" id="studentName" placeholder="Student Name" required>
+      <input type="text" id="studentGroup" placeholder="Student Group" required>
+      <button onclick="addStudent()">Add Student</button>
+    </div>
+    <div id="score-form">
+      <input type="text" id="studentNameUpdate" placeholder="Student Name for Update" required>
+      <input type="number" id="studentScore" placeholder="Score" required>
+      <input type="number" id="studentTime" placeholder="Time in seconds" required>
+      <button onclick="updateScoreAndTime()">Update Score and Time</button>
+    </div>
+    <div id="math-level-form">
+      <input type="number" id="mathLevel" placeholder="Math Level (1-50)" required>
+      <button onclick="setMathLevel()">Set Math Level</button>
+    </div>
+    <button onclick="showStudents()">Show All Students</button>
+    <div id="students-list"></div>
+    <div id="game-settings">
+      <input type="number" id="numberOfStudents" placeholder="Number of Students" required>
+      <input type="number" id="numberOfQuestions" placeholder="Number of Questions" required>
+      <button onclick="startGame()">Start Game</button>
+    </div>
+    <div id="active-games">
+      <h2>Active Players</h2>
+      <ul id="activePlayersList"></ul>
+    </div>
+  </div>
+
+
+  <div id="answers">
+    <h2>Answers Summary</h2>
+    <p>Correct Answers: <span id="correctAnswers">0</span></p>
+    <p>Incorrect Answers: <span id="incorrectAnswers">0</span></p>
+  </div>
+
+
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>
