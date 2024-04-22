@@ -3,11 +3,43 @@ let activeGames = [];
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
-const client = mqtt.connect("mqtt://10.91.8.131:8080");
+// const client = mqtt.connect("mqtt://10.91.8.131:8080");
+// const client = mqtt.connect("mqtt://10.91.8.131:8080"); // werk
+
+const client = mqtt.connect("mqtt://192.168.1.221:8080"); // home 
+
+
 
 client.on("connect", () => {
     console.log("connected to broker");
+
+
+    client.subscribe("/+/assignment", (err) => {
+        if (err) {
+            console.log("Error ocurred:", err);
+
+        }
+    });
+
+
 });
+
+
+
+
+client.on("message", (topic, message) => {
+
+
+    console.log(topic, message);
+
+    if (/\/.+\/assignment/.test(topic)) {
+        console.log("assignment received", JSON.parse(message))
+
+    }
+
+})
+
+
 
 function addStudent() {
     const name = document.getElementById('studentName').value;
@@ -91,4 +123,13 @@ function updateActiveGames() {
         item.textContent = `Spel ${index + 1}: ${game.numberOfStudents} studenten, ${game.numberOfQuestions} vragen`;
         list.appendChild(item);
     });
+}
+
+
+function requestAssignment(assignment) {
+
+    client.publish('/assignment-request')
+
+
+
 }

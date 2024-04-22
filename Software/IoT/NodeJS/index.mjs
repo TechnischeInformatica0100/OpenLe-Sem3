@@ -2,9 +2,24 @@ import mqtt from "mqtt";
 import express from "express";
 import * as mathGame from "./src/mathGame.mjs";
 
+// import { onTest, onAssignmentRequest } from "./src/topics.mjs";
+
+import * as topics from "./src/topics.mjs"
+
+
+
+
+
+
+
+
+
+
 // const client = mqtt.connect("mqtt://192.168.178.173");
-const client = mqtt.connect("mqtt://10.91.8.131"); // Werk 
-// const client = mqtt.connect("mqtt://10.91.8.131"); // Home
+// const client = mqtt.connect("mqtt://10.91.8.131"); // Werk 
+const client = mqtt.connect("mqtt://192.168.1.221"); // Home
+
+
 
 client.on("connect", () => {
     client.subscribe("/test", (err) => {
@@ -18,26 +33,44 @@ client.on("connect", () => {
             console.log("Error occurred:", err);
         }
     });
+
+
+
+    client.subscribe("/assignment-request", (err) => {
+        if (err) {
+            console.log("Error occurred:", err);
+        }
+    });
+
 });
 
-let activeGame = null;
+
+let activeGame = new mathGame.MathGame(20, 5, ["1", "2"]);
+
+
+
+const topicCallbacks = {
+    "/test": topics.onTest,
+    "/init": null,
+    "/assignment-request": topics.onAssignmentRequest,
+
+}
+
+
+
 
 client.on("message", (topic, message) => {
     // message is Buffer
     console.log(`${topic}: ${message.toString()}`);
 
-    switch (topic) {
-        case "/init":
-            const gameParameters = JSON.parse(message);
-            console.log(gameParameters);
-
-            activeGame = new mathGame.MathGame(gameParameters.numberOfStudents, gameParameters.numberOfQuestions);
-            console.log(activeGame);
-            break;
-
-        default:
-            console.log("unknown topic");
+    topicCallbacks[topic]
+    if (cb) {
+        cb(client, message)
     }
+    else {
+        console.error(`unknown topic ${topic}`)
+    }
+
 });
 
 // setInterval(() => {
