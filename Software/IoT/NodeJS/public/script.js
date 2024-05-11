@@ -3,6 +3,25 @@ let activeGames = [];
 let correctAnswers = 0;
 let incorrectAnswers = 0;
 
+const client = mqtt.connect("mqtt://192.168.1.204:8080");
+// const client = mqtt.connect("mqtt://10.91.8.131:8080");
+
+client.on("connect", () => {
+    console.log("connected to broker");
+
+    client.subscribe("/+/assignment", (err) => {
+        if (err) {
+            console.log("Error occurred:", err);
+        }
+    });
+});
+
+client.on("message", (topic, message) => {
+    if (/\/.+\/assignment/.test(topic)) {
+        console.log("assignment received", JSON.parse(message))
+    }
+})
+
 function addStudent() {
     const name = document.getElementById('studentName').value;
     const group = document.getElementById('studentGroup').value;
@@ -64,8 +83,17 @@ function startGame() {
     const numberOfStudents = parseInt(document.getElementById('numberOfStudents').value, 10);
     const numberOfQuestions = parseInt(document.getElementById('numberOfQuestions').value, 10);
     console.log(`Game started with ${numberOfStudents} students and ${numberOfQuestions} questions`);
-    activeGames.push({ numberOfStudents, numberOfQuestions });
+
+    const gameParameters = {
+        numberOfStudents,
+        numberOfQuestions
+    }
+
+    activeGames.push(gameParameters);
     updateActiveGames();
+
+    // initialise game via control logic
+    client.publish("/init", JSON.stringify(gameParameters));
 }
 
 function updateActiveGames() {
@@ -76,4 +104,9 @@ function updateActiveGames() {
         item.textContent = `Spel ${index + 1}: ${game.numberOfStudents} studenten, ${game.numberOfQuestions} vragen`;
         list.appendChild(item);
     });
+}
+
+
+function requestAssignment() {
+    client.publish('/assignment-request')
 }
