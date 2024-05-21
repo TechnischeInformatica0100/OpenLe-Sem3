@@ -42,7 +42,7 @@ function getRandomESPs(esps, count) {
         const r = generateInteger(0, esps_copy.length)
 
         esps_random.push(esps_copy[r])
-        esps_copy.splice(r)
+        esps_copy.splice(r, 1)
     }
 
     return esps_random
