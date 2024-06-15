@@ -55,3 +55,17 @@ button:hover {
 .form-group {
     margin-bottom: 10px;
 }
+
+.player-table,
+.player-table th,
+.player-table td {
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+.player-table th,
+.player-table td {
+    padding: 1rem 0.5rem;
+    min-width: 5rem;
+    text-align: center;
+}

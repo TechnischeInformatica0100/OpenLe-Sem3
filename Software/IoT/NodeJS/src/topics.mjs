@@ -6,28 +6,76 @@ export function onTest(client, msg, game) {
 }
 
 /**
- * Callback to the "/asignment-request" topic
+ * Callback to the "/assignment-request" topic
  * @param {MqttClient} client mqtt client
  * @param {any} msg mqtt payload
  * @param {MathGame} game math game instance
  */
 export function onAssignmentRequest(client, msg, game) {
     const request = JSON.parse(msg)
+    const player = game.getPlayer(request.player)
+
+    // check if players exists
+    if (!player) {
+        return;
+    }
+
+    // check if player is already done
+    if (player.getAssignmentsAnswered() === game.numberOfQuestions) {
+        return;
+    }
+
+    // check if player already has an assignment
+    if (player.assignment) {
+        return;
+    }
+
     const random_esps = getRandomESPs(game.esps, 2)
     const equation = generateRandomEquation()
 
-    const assignment = {
+    const assignmentResponse = {
         player: request.player,
         equation: formatEquation(equation),
         answer_location: random_esps[1],
     }
     const possible_answers = {
         player: request.player,
-        possible_answers: generatePossibleAnswers(equation)
+        possible_answers: generatePossibleAnswers(equation),
     }
 
-    client.publish(`/${random_esps[0]}/assignment`, JSON.stringify(assignment))
+    const assignment = {
+        equation: equation,
+        answer: getCorrectAnswer(equation),
+    }
+    game.addPlayerAssignment(request.player, assignment)
+    console.log(assignment)
+
+    client.publish(`/${random_esps[0]}/assignment`, JSON.stringify(assignmentResponse))
     client.publish(`/${random_esps[1]}/possible-answers`, JSON.stringify(possible_answers))
+}
+
+/**
+ * Callback to the "/assignment-answer" topic
+ * @param {MqttClient} client mqtt client
+ * @param {any} msg mqtt payload
+ * @param {MathGame} game math game instance
+ */
+export function onAssignmentAnswer(client, msg, game) {
+    const playerAnswer = JSON.parse(msg)
+    const assignment = game.consumePlayerAssignment(playerAnswer.player)
+
+    if (assignment === null) {
+        return;
+    }
+
+    const answeredTotal = game.updatePlayerAssignmentCounter(playerAnswer.player)
+    const answerResult = {
+        player: playerAnswer.player,
+        answerCorrect: playerAnswer.answer === assignment.answer,
+        answeredTotal: answeredTotal,
+    }
+
+    client.publish(`/${playerAnswer.source}/assignment-result`, JSON.stringify(answerResult))
 }
 
 function getRandomESP(esps) {
@@ -77,6 +125,8 @@ function getCorrectAnswer(equation) {
 
 function generatePossibleAnswers(equation) {
     const correct_answer = getCorrectAnswer(equation)
+
+    // TODO: make possible answer generation actually make sense
 
     return [
         correct_answer,

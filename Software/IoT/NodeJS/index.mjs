@@ -3,9 +3,13 @@ import express from "express";
 import * as mathGame from "./src/mathGame.mjs";
 import * as topics from "./src/topics.mjs"
 
-const client = mqtt.connect("mqtt://192.168.1.204");
+// const client = mqtt.connect("mqtt://192.168.178.173");
 // const client = mqtt.connect("mqtt://10.91.8.131"); // Werk 
-// const client = mqtt.connect("mqtt://10.91.8.131"); // Home
+const client = mqtt.connect("mqtt://192.168.1.204"); // Home
+
+
+
+
 
 client.on("connect", () => {
     client.subscribe("/test", (err) => {
@@ -25,14 +29,24 @@ client.on("connect", () => {
             console.log("Error occurred:", err);
         }
     });
+
+    client.subscribe("/assignment-answer", (err) => {
+        if (err) {
+            console.log("Error occurred:", err);
+        }
+    });
 });
 
-let activeGame = new mathGame.MathGame(20, 5, ["1", "2"]);
+const exampleESPS = ["1", "2"];
+const examplePlayers = ["jantje", "pietje", "burak"];
+
+let activeGame = new mathGame.MathGame(20, 5, exampleESPS, examplePlayers);
 
 const topicCallbacks = {
     "/test": topics.onTest,
     "/init": null,
     "/assignment-request": topics.onAssignmentRequest,
+    "/assignment-answer": topics.onAssignmentAnswer,
 }
 
 client.on("message", (topic, message) => {

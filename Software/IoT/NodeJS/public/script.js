@@ -1,10 +1,8 @@
-let students = [];
-let activeGames = [];
-let correctAnswers = 0;
-let incorrectAnswers = 0;
+const players = ["jantje", "pietje", "burak"];
+let tableRows = {}
 
+// const client = mqtt.connect("mqtt://192.168.178.173:8080");
 const client = mqtt.connect("mqtt://192.168.1.204:8080");
-// const client = mqtt.connect("mqtt://10.91.8.131:8080");
 
 client.on("connect", () => {
     console.log("connected to broker");
@@ -20,93 +18,72 @@ client.on("message", (topic, message) => {
     if (/\/.+\/assignment/.test(topic)) {
         console.log("assignment received", JSON.parse(message))
     }
+
+    // TODO: on assignment-result, move button to correct column
 })
-
-function addStudent() {
-    const name = document.getElementById('studentName').value;
-    const group = document.getElementById('studentGroup').value;
-    if (name && group) {
-        students.push({ name, group, score: 0, time: 0, correct: 0, incorrect: 0 });
-        document.getElementById('studentName').value = '';
-        document.getElementById('studentGroup').value = '';
-        // Update de lijst met studenten
-        showStudents();
-    }
-}
-
-function updateScoreAndTime() {
-    const name = document.getElementById('studentNameUpdate').value;
-    const score = parseInt(document.getElementById('studentScore').value, 10);
-    const time = parseInt(document.getElementById('studentTime').value, 10);
-    // Voeg logica toe om te bepalen of het antwoord goed of fout is
-    // Voor nu nemen we aan dat elke score boven de 50 goed is
-    const isCorrect = score > 50;
-    const student = students.find(student => student.name === name);
-    if (student) {
-        student.score = score;
-        student.time = time;
-        if (isCorrect) {
-            student.correct += 1;
-            correctAnswers += 1;
-        } else {
-            student.incorrect += 1;
-            incorrectAnswers += 1;
-        }
-        updateAnswers();
-    }
-}
-
-function updateAnswers() {
-    document.getElementById('correctAnswers').textContent = correctAnswers;
-    document.getElementById('incorrectAnswers').textContent = incorrectAnswers;
-}
-
-function showStudents() {
-    const list = document.getElementById('students-list');
-    list.innerHTML = '';
-    students.forEach(student => {
-        const item = document.createElement('li');
-        item.textContent = `${student.name} (Group: ${student.group}) - Score: ${student.score}, Time: ${student.time}s, Correct: ${student.correct}, Incorrect: ${student.incorrect}`;
-        list.appendChild(item);
-    });
-}
-
-
-function setMathLevel() {
-    const level = parseInt(document.getElementById('mathLevel').value, 10);
-    console.log(`Math level set to ${level}`);
-}
-
-
-
-function startGame() {
-    const numberOfStudents = parseInt(document.getElementById('numberOfStudents').value, 10);
-    const numberOfQuestions = parseInt(document.getElementById('numberOfQuestions').value, 10);
-    console.log(`Game started with ${numberOfStudents} students and ${numberOfQuestions} questions`);
-
-    const gameParameters = {
-        numberOfStudents,
-        numberOfQuestions
-    }
-
-    activeGames.push(gameParameters);
-    updateActiveGames();
-
-    // initialise game via control logic
-    client.publish("/init", JSON.stringify(gameParameters));
-}
-
-function updateActiveGames() {
-    const list = document.getElementById('activePlayersList');
-    list.innerHTML = '';
-    activeGames.forEach((game, index) => {
-        const item = document.createElement('li');
-        item.textContent = `Spel ${index + 1}: ${game.numberOfStudents} studenten, ${game.numberOfQuestions} vragen`;
-        list.appendChild(item);
-    });
-}
-
 
 function requestAssignment() {
     client.publish('/assignment-request')
 }
+
+/**
+ * Handler for when a button is pressed in the "Without assignment" column
+ * @param {PointerEvent} event button click event object
+ */
+function handlePlayerButtonPressWithoutAssignment(event) {
+    console.log('handlePlayerButtonPressWithoutAssignment() called');
+    // console.log(event);
+
+    // remove button out of original column
+    const button = event.target;
+    const originalCell = button.parentElement;
+    originalCell.removeChild(button);
+
+    // insert removed button into next column
+    const row = originalCell.parentElement;
+    row.getElementsByTagName('td')[1].appendChild(button);
+
+    // replace event listener
+    button.removeEventListener('click', handlePlayerButtonPressWithoutAssignment);
+    // button.addEventListener('click', handlePlayerButtonPressWithAssignment, { passive: true });
+
+    // TODO: send assignment-request message
+}
+
+// function handlePlayerButtonPressWithAssignment(event) {
+//     console.log('handlePlayerButtonPressWithAssignment() called');
+// }
+
+function addPlayersToTable() {
+    const tableBody = document.getElementById('player-table-body');
+    tableBody.innerHTML = '';
+    tableRows = {}
+
+    for (const player of players) {
+        const row = document.createElement('tr');
+        tableRows[player] = row;
+        
+        // create/add elements using JS
+        for (let i = 0; i < 3; i++) {
+            const cell = document.createElement('td');
+            
+            if (i === 0) {
+                const button = document.createElement('button');
+                button.addEventListener('click', handlePlayerButtonPressWithoutAssignment, { passive: true });
+                button.innerText = player;
+                cell.appendChild(button);
+            }
+
+            row.appendChild(cell);
+        }
+
+        // // create/add elements using innerHTML
+        // for (let i = 0; i < 3; i++) {
+        //     row.innerHTML += `<td><button onclick="handlePlayerButtonPress()">${i == 0 ? player : ''}</button></td>`;
+        // }
+
+        tableBody.appendChild(row);
+    }
+}
+
+//<button onclick="addStudent()">Add Student</button>
